@@ -1,4 +1,4 @@
-package com.example.testetecnico.v1.dto;
+package com.example.testetecnico.v1.exception;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDTO {
+public class MessageException {
 
     @ApiModelProperty(value = "Mensagem descritiva do erro", readOnly = true)
     private String mensagem;

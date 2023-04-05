@@ -1,28 +1,38 @@
 package com.example.testetecnico.v1.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "pessoas")
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pessoa", schema = "public")
+@EqualsAndHashCode(of = "id")
 public class Pessoa {
-    private String name;
-    private String dataNasc;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonManagedReference
-    @OneToMany(mappedBy = "pessoa")
-    private List<Endereco> enderecos = new ArrayList<>();
+    private String nome;
+    private String dataNascimento;
 
+    @Embedded
+    private List<Endereco> endereco;
 
+    public Pessoa(DadosCadastroPessoa dado) {
+        this.nome = dado.nome();
+        this.dataNascimento = dado.dataNascimento();
+        List<Endereco> list = new ArrayList();
+        for(int x =0; x < dado.endereco().size(); x++) {
+            Endereco end = new Endereco(dado.endereco().get(x));
+            list.add(end);
+        }
+
+        this.endereco = list;
+    }
 }

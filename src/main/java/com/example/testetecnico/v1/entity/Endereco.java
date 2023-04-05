@@ -1,33 +1,30 @@
 package com.example.testetecnico.v1.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
+@Embeddable
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "endereco", schema = "public")
-public class Endereco implements Serializable {
+@AllArgsConstructor
+public class Endereco {
+
     private String logradouro;
-
-    private String cep;
-
     private String numero;
-
     private String cidade;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
+    @Enumerated(EnumType.STRING)
+    private Principal principal;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Endereco(RecordEndereco dado) {
+        this.logradouro = dado.logradouro();
+        this.numero = dado.numero();
+        this.cidade = dado.cidade();
+        this.principal = dado.principal();
+    }
 
 }

@@ -1,7 +1,7 @@
 package com.example.testetecnico.v1.controller.impl;
 
 import com.example.testetecnico.v1.controller.PessoaController;
-import com.example.testetecnico.v1.dto.PessoaDTO;
+import com.example.testetecnico.v1.entity.DadosCadastroPessoa;
 import com.example.testetecnico.v1.entity.Pessoa;
 import com.example.testetecnico.v1.exception.PessoaNotFoundException;
 import com.example.testetecnico.v1.service.PessoaService;
@@ -34,16 +34,19 @@ public class PessoaControllerImpl implements PessoaController {
 
     @Override
     @PostMapping("v1/pessoas")
-    public Pessoa novaPessoa(PessoaDTO pessoa) {
-        return pessoaService.save(new ModelMapper().map(pessoa, Pessoa.class));
+    public void cadastrar(@RequestBody DadosCadastroPessoa dado) {
+        pessoaService.save(new Pessoa(dado));
     }
+
 
     @Override
     @PutMapping("v1/pessoas/{id}")
-    public Pessoa updatePessoa(PessoaDTO pessoaAlterada, Long id) {
+    public Pessoa updatePessoa(DadosCadastroPessoa dado, Long id) {
         return pessoaService.update(new ModelMapper()
-                        .map(pessoaAlterada, Pessoa.class), id)
-                .orElseThrow(() -> { throw new PessoaNotFoundException(id); });
+                        .map(dado, Pessoa.class), id)
+                .orElseThrow(() -> {
+                    throw new PessoaNotFoundException(id);
+                });
     }
 
     @Override

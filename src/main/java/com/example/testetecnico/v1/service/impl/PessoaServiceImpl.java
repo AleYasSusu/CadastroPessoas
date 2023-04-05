@@ -32,12 +32,12 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public Optional<Pessoa> update(Pessoa novaPessoa, Long id) {
+    public Optional<Pessoa> update(Pessoa dado, Long id) {
         return pessoarepository.findById(id).
                 map(pessoa -> {
-                    setIfNotNull(pessoa::setName, novaPessoa.getName());
-                    setIfNotNull(pessoa::setEnderecos, novaPessoa.getEnderecos());
-                    setIfNotNull(pessoa::setDataNasc, novaPessoa.getDataNasc());
+                    setIfNotNull(dado::setNome, dado.getNome());
+                    setIfNotNull(dado::setEndereco, dado.getEndereco());
+                    setIfNotNull(dado::setDataNascimento, dado.getDataNascimento());
 
                     return pessoarepository.save(pessoa);
                 });
