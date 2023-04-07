@@ -67,7 +67,7 @@ public class AdressControllerTest {
 
         // Criar o mock da resposta do serviço de adress
         Adress savedAdress = new Adress();
-        savedAdress.setId(1L);
+        savedAdress.setId(1);
         savedAdress.setStreet(adress.getStreet());
         savedAdress.setNumber(adress.getNumber());
         savedAdress.setCity(adress.getCity());
@@ -146,13 +146,13 @@ public class AdressControllerTest {
         Integer personId = 1;
         List<Adress> expectedAdresses = new ArrayList<>();
         Person person = new Person(personId, "João da Silva", "2000-12-25");
-        expectedAdresses.add(new Adress(1L, "São Paulo", "Rua A", "91796070", "123", true, person));
+        expectedAdresses.add(new Adress(1, "São Paulo", "Rua A", "91796070", "123", true, person));
 
         // Configuração do comportamento do serviço de endereços
         when(adressService.searchAdresssByPerson(personId)).thenReturn(expectedAdresses);
 
         // Execução da requisição HTTP
-        mockMvc.perform(get("/v1/enderecos/person/{id}", personId))
+        mockMvc.perform(get("/v1/enderecos/pessoa/{id}", personId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)))

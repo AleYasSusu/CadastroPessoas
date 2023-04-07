@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdressRepository extends JpaRepository<Adress, Long>{
+public interface AdressRepository extends JpaRepository<Adress, Integer>{
 
 	@Query("from Adress where person.id = :id")
-	List<Adress> enderecosPorPessoa(@Param("id") Integer id);
+	List<Adress> adressByPerson(@Param("id") Integer id);
 	
 }

@@ -47,14 +47,14 @@ public class AdressServiceTest {
     public void shouldFindAdressById() {
         //Data
         Adress adress = AdressBuilder.buildAdressDefault().build();
-        when(adressRepository.findById(1L)).thenReturn(of(adress));
+        when(adressRepository.findById(1)).thenReturn(of(adress));
 
         //Action
         Adress response = adressService.findById(1);
 
         //Result
         Assertions.assertThat(response).isEqualTo(adress);
-        verify(adressRepository, times(1)).findById(1L);
+        verify(adressRepository, times(1)).findById(1);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class AdressServiceTest {
         List<Adress> AllAdress = AdressBuilder.buildAdressDefault().buildList();
         Adress adress = AdressBuilder.buildAdressDefault().build();
         when(adressRepository.findAll()).thenReturn(AllAdress);
-        when(adressRepository.findById(1L)).thenReturn(Optional.ofNullable(adress));
+        when(adressRepository.findById(1)).thenReturn(Optional.ofNullable(adress));
 
         //Action
         adressService.setPrincipalByIdPerson(1);
@@ -95,6 +95,6 @@ public class AdressServiceTest {
         adressService.searchAdresssByPerson(1);
 
         //Result
-        verify(adressRepository, times(1)).enderecosPorPessoa(1);
+        verify(adressRepository, times(1)).adressByPerson(1);
     }
 }

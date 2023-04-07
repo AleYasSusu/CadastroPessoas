@@ -12,7 +12,7 @@ public class AdressBuilder {
     public static AdressBuilder buildAdressDefault() {
         AdressBuilder builder = new AdressBuilder();
         builder.adress = Adress.builder()
-                .id(1L)
+                .id(1)
                 .city("Porto Alegre")
                 .main(true)
                 .zipCode("91796070")

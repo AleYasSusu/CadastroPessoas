@@ -16,46 +16,48 @@ import java.util.List;
 @RequestMapping("v1/enderecos")
 @RequiredArgsConstructor
 public class AdressControllerImpl implements AdressController {
-	
-	private final AdressService adressService;
-	@Override
-	@GetMapping("/{id}")
-	public Adress findById(@PathVariable Integer id) {
-		return adressService.findById(id);
-	}
 
-	@Override
-	@GetMapping
-	public List<Adress> findAll() {
+    private final AdressService adressService;
 
-		return adressService.findAll();
-	}
+    @Override
+    @GetMapping("/{id}")
+    public Adress findById(@PathVariable Integer id) {
+        return adressService.findById(id);
+    }
 
-	@Override
-	@PostMapping
-	public ResponseEntity<Adress> saveNewAdress(Adress adress) {
-		try {
-			Adress savedAdress = adressService.saveNewAdress(adress);
-			return ResponseEntity.ok(savedAdress);
-		} catch (DataIntegrityViolationException e) {
-			List<Adress> adresses = findAll();
-			adress.setId((long) (adresses.size() + 1));
-			Adress savedAdress = adressService.saveNewAdress(adress);
-			return ResponseEntity.status(HttpStatus.CREATED).body(savedAdress);
-		}
-	}
-	@Override
-	@GetMapping("/person/{id}")
-	public List<Adress> searchAdresssByPerson(Integer id) {
+    @Override
+    @GetMapping
+    public List<Adress> findAll() {
 
-		return adressService.searchAdresssByPerson(id);
-	}
+        return adressService.findAll();
+    }
 
-	@Override
-	@GetMapping("/principal/{id}")
-	public Adress setPrincipalByIdPerson(Integer id) {
-		return adressService.setPrincipalByIdPerson(id);
-		
-	}
-	
+    @Override
+    @PostMapping
+    public ResponseEntity<Adress> saveNewAdress(Adress adress) {
+        try {
+            Adress savedAdress = adressService.saveNewAdress(adress);
+            return ResponseEntity.ok(savedAdress);
+        } catch (DataIntegrityViolationException e) {
+            List<Adress> adresses = findAll();
+            adress.setId((adresses.size() + 1));
+            Adress savedAdress = adressService.saveNewAdress(adress);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedAdress);
+        }
+    }
+
+    @Override
+    @GetMapping("/pessoa/{id}")
+    public List<Adress> searchAdresssByPerson(Integer id) {
+
+        return adressService.searchAdresssByPerson(id);
+    }
+
+    @Override
+    @GetMapping("/principal/{id}")
+    public Adress setPrincipalByIdPerson(Integer id) {
+        return adressService.setPrincipalByIdPerson(id);
+
+    }
+
 }

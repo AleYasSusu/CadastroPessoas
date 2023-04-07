@@ -17,51 +17,52 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdressServiceImpl implements AdressService {
 
-	private final AdressRepository adressRepository;
+    private final AdressRepository adressRepository;
 
+    private final PersonService personService;
 
-	private final PersonService personService;
+    @Override
+    public List<Adress> findAll() {
+        return adressRepository.findAll();
+    }
 
-	@Override
-	public List<Adress> findAll() {
-		return adressRepository.findAll();
-	}
-	@Override
-	public Adress saveNewAdress(Adress Adress) {
-		int pessoaId = Adress.getPerson().getId();
-		
-		Person pessoa = personService.findById(pessoaId);
-		
-		Adress.setPerson(pessoa);
-		
-		return adressRepository.save(Adress);
-	}
+    @Override
+    public Adress saveNewAdress(Adress Adress) {
+        int pessoaId = Adress.getPerson().getId();
 
-	@Override
-	public Adress setPrincipalByIdPerson(Integer id) {
+        Person pessoa = personService.findById(pessoaId);
 
-		List<Adress> Adresss = adressRepository.findAll();
+        Adress.setPerson(pessoa);
 
-		for (Adress Adress : Adresss) {
-			Adress.setMain(false);
-		}
+        return adressRepository.save(Adress);
+    }
 
-		Adress AdressPrincipal = findById(id);
-		AdressPrincipal.setMain(true);
+    @Override
+    public Adress setPrincipalByIdPerson(Integer id) {
 
-		return adressRepository.save(AdressPrincipal);
+        List<Adress> Adresss = adressRepository.findAll();
 
-	}
-	@Override
-	public List<Adress> searchAdresssByPerson(Integer id) {
-		personService.findById(id);
-		return adressRepository.enderecosPorPessoa(id);
-	}
-	@Override
-	public Adress findById(Integer id) {
-		return adressRepository.findById((long)id)
-				.orElseThrow(() -> new EntitiesNotFoundException(
-						String.format("Endereço com o id %d não encontrado", id)));
-	}
+        for (Adress Adress : Adresss) {
+            Adress.setMain(false);
+        }
 
+        Adress AdressPrincipal = findById(id);
+        AdressPrincipal.setMain(true);
+
+        return adressRepository.save(AdressPrincipal);
+
+    }
+
+    @Override
+    public List<Adress> searchAdresssByPerson(Integer id) {
+        personService.findById(id);
+        return adressRepository.adressByPerson(id);
+    }
+
+    @Override
+    public Adress findById(Integer id) {
+        return adressRepository.findById(id)
+                .orElseThrow(() -> new EntitiesNotFoundException(
+                        String.format("Endereço com o id %d não encontrado", id)));
+    }
 }
